@@ -2,12 +2,21 @@
   "object": {
     "pins": [
       {
-        "package": "xctest-dynamic-overlay",
-        "repositoryURL": "https://github.com/pointfreeco/xctest-dynamic-overlay",
+        "package": "OpenCombine",
+        "repositoryURL": "https://github.com/OpenCombine/OpenCombine",
         "state": {
           "branch": null,
-          "revision": "f821dcbac7cb6913f8e0d1a80496d0ba0199fa81",
-          "version": "0.3.0"
+          "revision": "9cf67e363738dbab61b47fb5eaed78d3db31e5ee",
+          "version": "0.13.0"
+        }
+      },
+      {
+        "package": "xctest-dynamic-overlay",
+        "repositoryURL": "https://github.com/pavelosipov/xctest-dynamic-overlay",
+        "state": {
+          "branch": null,
+          "revision": "047e54d604578bf9cd5ad1dfcd7436641b8546b1",
+          "version": "0.3.1"
         }
       }
     ]

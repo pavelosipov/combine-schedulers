@@ -1,8 +1,8 @@
-#if canImport(UIKit) && !os(watchOS) && canImport(Combine)
-  import Combine
+#if canImport(UIKit) && !os(watchOS) && canImport(OpenCombine)
+  import OpenCombine
   import UIKit
 
-  extension Scheduler {
+  extension OpenCombine.Scheduler {
     /// Wraps scheduled actions in `UIView.animate`.
     ///
     /// - Parameter duration: The `duration` parameter passed to `UIView.animate`.

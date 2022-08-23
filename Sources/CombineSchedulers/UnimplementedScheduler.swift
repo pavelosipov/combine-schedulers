@@ -1,5 +1,7 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
+  import OpenCombineDispatch
+  import OpenCombineFoundation
   import Foundation
   import XCTestDynamicOverlay
 
@@ -72,10 +74,10 @@
   /// this test will begin to fail, which is a good thing! This will force us to address the
   /// complexity that was introduced. Had we used any other scheduler, it would quietly receive this
   /// additional work and the test would continue to pass.
-  public struct UnimplementedScheduler<SchedulerTimeType, SchedulerOptions>: Scheduler
+  public struct UnimplementedScheduler<SchedulerTimeType, SchedulerOptions>: OpenCombine.Scheduler
   where
     SchedulerTimeType: Strideable,
-    SchedulerTimeType.Stride: SchedulerTimeIntervalConvertible
+    SchedulerTimeType.Stride: OpenCombine.SchedulerTimeIntervalConvertible
   {
     public var minimumTolerance: SchedulerTimeType.Stride {
       XCTFail(
@@ -156,7 +158,7 @@
 
   extension DispatchQueue {
     /// An unimplemented scheduler that can substitute itself for a dispatch queue.
-    public static var unimplemented: UnimplementedSchedulerOf<DispatchQueue> {
+    public static var unimplemented: UnimplementedSchedulerOf<DispatchQueue.OCombine> {
       Self.unimplemented("DispatchQueue")
     }
 
@@ -165,7 +167,7 @@
     /// - Parameter prefix: A string that identifies this scheduler and will prefix all failure
     ///   messages.
     /// - Returns: An unimplemented scheduler.
-    public static func unimplemented(_ prefix: String) -> UnimplementedSchedulerOf<DispatchQueue> {
+    public static func unimplemented(_ prefix: String) -> UnimplementedSchedulerOf<DispatchQueue.OCombine> {
       // NB: `DispatchTime(uptimeNanoseconds: 0) == .now())`. Use `1` for consistency.
       .init(prefix, now: .init(.init(uptimeNanoseconds: 1)))
     }
@@ -173,7 +175,7 @@
 
   extension OperationQueue {
     /// An unimplemented scheduler that can substitute itself for an operation queue.
-    public static var unimplemented: UnimplementedSchedulerOf<OperationQueue> {
+    public static var unimplemented: UnimplementedSchedulerOf<OperationQueue.OCombine> {
       Self.unimplemented("OperationQueue")
     }
 
@@ -182,14 +184,14 @@
     /// - Parameter prefix: A string that identifies this scheduler and will prefix all failure
     ///   messages.
     /// - Returns: An unimplemented scheduler.
-    public static func unimplemented(_ prefix: String) -> UnimplementedSchedulerOf<OperationQueue> {
+    public static func unimplemented(_ prefix: String) -> UnimplementedSchedulerOf<OperationQueue.OCombine> {
       .init(prefix, now: .init(.init(timeIntervalSince1970: 0)))
     }
   }
 
   extension RunLoop {
     /// An unimplemented scheduler that can substitute itself for a run loop.
-    public static var unimplemented: UnimplementedSchedulerOf<RunLoop> {
+    public static var unimplemented: UnimplementedSchedulerOf<RunLoop.OCombine> {
       Self.unimplemented("RunLoop")
     }
 
@@ -198,15 +200,15 @@
     /// - Parameter prefix: A string that identifies this scheduler and will prefix all failure
     ///   messages.
     /// - Returns: An unimplemented scheduler.
-    public static func unimplemented(_ prefix: String) -> UnimplementedSchedulerOf<RunLoop> {
+    public static func unimplemented(_ prefix: String) -> UnimplementedSchedulerOf<RunLoop.OCombine> {
       .init(prefix, now: .init(.init(timeIntervalSince1970: 0)))
     }
   }
 
   extension AnyScheduler
   where
-    SchedulerTimeType == DispatchQueue.SchedulerTimeType,
-    SchedulerOptions == DispatchQueue.SchedulerOptions
+    SchedulerTimeType == DispatchQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == DispatchQueue.OCombine.SchedulerOptions
   {
     /// An unimplemented scheduler that can substitute itself for a dispatch queue.
     public static var unimplemented: Self {
@@ -225,8 +227,8 @@
 
   extension AnyScheduler
   where
-    SchedulerTimeType == OperationQueue.SchedulerTimeType,
-    SchedulerOptions == OperationQueue.SchedulerOptions
+    SchedulerTimeType == OperationQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == OperationQueue.OCombine.SchedulerOptions
   {
     /// An unimplemented scheduler that can substitute itself for an operation queue.
     public static var unimplemented: Self {
@@ -245,8 +247,8 @@
 
   extension AnyScheduler
   where
-    SchedulerTimeType == RunLoop.SchedulerTimeType,
-    SchedulerOptions == RunLoop.SchedulerOptions
+    SchedulerTimeType == RunLoop.OCombine.SchedulerTimeType,
+    SchedulerOptions == RunLoop.OCombine.SchedulerOptions
   {
     /// An unimplemented scheduler that can substitute itself for a run loop.
     public static var unimplemented: Self {
@@ -267,5 +269,5 @@
   /// by the time type and options type.
   public typealias UnimplementedSchedulerOf<Scheduler> = UnimplementedScheduler<
     Scheduler.SchedulerTimeType, Scheduler.SchedulerOptions
-  > where Scheduler: Combine.Scheduler
+  > where Scheduler: OpenCombine.Scheduler
 #endif

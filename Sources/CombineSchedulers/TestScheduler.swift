@@ -1,5 +1,7 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
+  import OpenCombineDispatch
+  import OpenCombineFoundation
   import Foundation
 
   /// A scheduler whose current time and execution can be controlled in a deterministic manner.
@@ -67,8 +69,8 @@
   /// operations.
   ///
   public final class TestScheduler<SchedulerTimeType, SchedulerOptions>:
-    Scheduler, @unchecked Sendable
-  where SchedulerTimeType: Strideable, SchedulerTimeType.Stride: SchedulerTimeIntervalConvertible {
+    OpenCombine.Scheduler, @unchecked Sendable
+  where SchedulerTimeType: Strideable, SchedulerTimeType.Stride: OpenCombine.SchedulerTimeIntervalConvertible {
 
     private var lastSequence: UInt = 0
     private let lock = NSRecursiveLock()
@@ -116,6 +118,7 @@
     /// - Parameter duration: A stride. By default this argument is `.zero`, which does not advance
     ///   the scheduler's time but does cause the scheduler to execute any units of work that are
     ///   waiting to be performed for right now.
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @MainActor
     public func advance(by duration: SchedulerTimeType.Stride = .zero) async {
       let finalDate = self.lock.sync { self.now.advanced(by: duration) }
@@ -158,6 +161,7 @@
     /// Advances the scheduler to the given instant.
     ///
     /// - Parameter instant: An instant in time to advance to.
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     public func advance(to instant: SchedulerTimeType) async {
       await self.advance(by: self.now.distance(to: instant))
     }
@@ -198,6 +202,7 @@
       }
     }
 
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     @MainActor
     public func run() async {
       await Task.megaYield()
@@ -253,7 +258,7 @@
 
   extension DispatchQueue {
     /// A test scheduler of dispatch queues.
-    public static var test: TestSchedulerOf<DispatchQueue> {
+    public static var test: TestSchedulerOf<DispatchQueue.OCombine> {
       // NB: `DispatchTime(uptimeNanoseconds: 0) == .now())`. Use `1` for consistency.
       .init(now: .init(.init(uptimeNanoseconds: 1)))
     }
@@ -261,14 +266,14 @@
 
   extension OperationQueue {
     /// A test scheduler of operation queues.
-    public static var test: TestSchedulerOf<OperationQueue> {
+    public static var test: TestSchedulerOf<OperationQueue.OCombine> {
       .init(now: .init(.init(timeIntervalSince1970: 0)))
     }
   }
 
   extension RunLoop {
     /// A test scheduler of run loops.
-    public static var test: TestSchedulerOf<RunLoop> {
+    public static var test: TestSchedulerOf<RunLoop.OCombine> {
       .init(now: .init(.init(timeIntervalSince1970: 0)))
     }
   }
@@ -277,8 +282,9 @@
   /// time type and options type.
   public typealias TestSchedulerOf<Scheduler> = TestScheduler<
     Scheduler.SchedulerTimeType, Scheduler.SchedulerOptions
-  > where Scheduler: Combine.Scheduler
+  > where Scheduler: OpenCombine.Scheduler
 
+  @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   extension Task where Success == Failure, Failure == Never {
     static func megaYield(count: Int = 3) async {
       for _ in 1...count {

@@ -1,5 +1,7 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
+  import OpenCombineDispatch
+  import OpenCombineFoundation
   import Foundation
 
   /// A scheduler for performing synchronous actions.
@@ -98,10 +100,10 @@
   /// > `ImmediateScheduler` will not schedule this work in a defined way. Use a `TestScheduler`
   /// > instead to capture your publisher's timing behavior.
   ///
-  public struct ImmediateScheduler<SchedulerTimeType, SchedulerOptions>: Scheduler
+  public struct ImmediateScheduler<SchedulerTimeType, SchedulerOptions>: OpenCombine.Scheduler
   where
     SchedulerTimeType: Strideable,
-    SchedulerTimeType.Stride: SchedulerTimeIntervalConvertible
+    SchedulerTimeType.Stride: OpenCombine.SchedulerTimeIntervalConvertible
   {
 
     public let minimumTolerance: SchedulerTimeType.Stride = .zero
@@ -144,7 +146,7 @@
 
   extension DispatchQueue {
     /// An immediate scheduler that can substitute itself for a dispatch queue.
-    public static var immediate: ImmediateSchedulerOf<DispatchQueue> {
+    public static var immediate: ImmediateSchedulerOf<DispatchQueue.OCombine> {
       // NB: `DispatchTime(uptimeNanoseconds: 0) == .now())`. Use `1` for consistency.
       .init(now: .init(.init(uptimeNanoseconds: 1)))
     }
@@ -152,22 +154,22 @@
 
   extension OperationQueue {
     /// An immediate scheduler that can substitute itself for an operation queue.
-    public static var immediate: ImmediateSchedulerOf<OperationQueue> {
+    public static var immediate: ImmediateSchedulerOf<OperationQueue.OCombine> {
       .init(now: .init(.init(timeIntervalSince1970: 0)))
     }
   }
 
   extension RunLoop {
     /// An immediate scheduler that can substitute itself for a run loop.
-    public static var immediate: ImmediateSchedulerOf<RunLoop> {
+    public static var immediate: ImmediateSchedulerOf<RunLoop.OCombine> {
       .init(now: .init(.init(timeIntervalSince1970: 0)))
     }
   }
 
   extension AnyScheduler
   where
-    SchedulerTimeType == DispatchQueue.SchedulerTimeType,
-    SchedulerOptions == DispatchQueue.SchedulerOptions
+    SchedulerTimeType == DispatchQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == DispatchQueue.OCombine.SchedulerOptions
   {
     /// An immediate scheduler that can substitute itself for a dispatch queue.
     public static var immediate: Self {
@@ -177,8 +179,8 @@
 
   extension AnyScheduler
   where
-    SchedulerTimeType == OperationQueue.SchedulerTimeType,
-    SchedulerOptions == OperationQueue.SchedulerOptions
+    SchedulerTimeType == OperationQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == OperationQueue.OCombine.SchedulerOptions
   {
     /// An immediate scheduler that can substitute itself for an operation queue.
     public static var immediate: Self {
@@ -188,8 +190,8 @@
 
   extension AnyScheduler
   where
-    SchedulerTimeType == RunLoop.SchedulerTimeType,
-    SchedulerOptions == RunLoop.SchedulerOptions
+    SchedulerTimeType == RunLoop.OCombine.SchedulerTimeType,
+    SchedulerOptions == RunLoop.OCombine.SchedulerOptions
   {
     /// An immediate scheduler that can substitute itself for a run loop.
     public static var immediate: Self {
@@ -201,5 +203,5 @@
   /// the time type and options type.
   public typealias ImmediateSchedulerOf<Scheduler> = ImmediateScheduler<
     Scheduler.SchedulerTimeType, Scheduler.SchedulerOptions
-  > where Scheduler: Combine.Scheduler
+  > where Scheduler: OpenCombine.Scheduler
 #endif

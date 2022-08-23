@@ -1,4 +1,4 @@
-import Combine
+import OpenCombine
 import CombineSchedulers
 import XCTest
 
@@ -163,6 +163,7 @@ final class CombineSchedulerTests: XCTestCase {
     XCTAssertEqual(values, [1, 42, 42, 1, 42])
   }
 
+  @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   func testAdvanceToFarFuture() async {
     let testScheduler = DispatchQueue.test
 
@@ -181,6 +182,7 @@ final class CombineSchedulerTests: XCTestCase {
     XCTAssertEqual(tickCount, 1_002)
   }
 
+  @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   func testDelay0Advance_Async() async {
     let scheduler = DispatchQueue.test
 
@@ -197,6 +199,7 @@ final class CombineSchedulerTests: XCTestCase {
     XCTAssertEqual(value, 1)
   }
 
+  @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   func testAsyncSleep() async throws {
     let testScheduler = DispatchQueue.test
 
@@ -208,6 +211,7 @@ final class CombineSchedulerTests: XCTestCase {
     try await task.value
   }
 
+  @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   func testAsyncTimer() async throws {
     let testScheduler = DispatchQueue.test
 
@@ -222,6 +226,7 @@ final class CombineSchedulerTests: XCTestCase {
     XCTAssertEqual(count, 10)
   }
 
+  @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
   func testAsyncRun() async throws {
     let testScheduler = DispatchQueue.test
 

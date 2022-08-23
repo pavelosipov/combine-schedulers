@@ -1,5 +1,7 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
+  import OpenCombineDispatch
+  import OpenCombineFoundation
   import Foundation
 
   /// A type-erasing wrapper for the `Scheduler` protocol, which can be useful for being generic over
@@ -131,10 +133,10 @@
   /// in classes, functions, etc. without needing to introduce a generic, which can help simplify
   /// the code and reduce implementation details from leaking out.
   ///
-  public struct AnyScheduler<SchedulerTimeType, SchedulerOptions>: Scheduler, @unchecked Sendable
+  public struct AnyScheduler<SchedulerTimeType, SchedulerOptions>: OpenCombine.Scheduler, @unchecked Sendable
   where
     SchedulerTimeType: Strideable,
-    SchedulerTimeType.Stride: SchedulerTimeIntervalConvertible
+    SchedulerTimeType.Stride: OpenCombine.SchedulerTimeIntervalConvertible
   {
 
     private let _minimumTolerance: () -> SchedulerTimeType.Stride
@@ -242,9 +244,9 @@
   /// time type and options type.
   public typealias AnySchedulerOf<Scheduler> = AnyScheduler<
     Scheduler.SchedulerTimeType, Scheduler.SchedulerOptions
-  > where Scheduler: Combine.Scheduler
+  > where Scheduler: OpenCombine.Scheduler
 
-  extension Scheduler {
+  extension OpenCombine.Scheduler {
     /// Wraps this scheduler with a type eraser.
     public func eraseToAnyScheduler() -> AnyScheduler<SchedulerTimeType, SchedulerOptions> {
       AnyScheduler(self)
@@ -253,39 +255,39 @@
 
   extension AnyScheduler
   where
-    SchedulerTimeType == DispatchQueue.SchedulerTimeType,
-    SchedulerOptions == DispatchQueue.SchedulerOptions
+    SchedulerTimeType == DispatchQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == DispatchQueue.OCombine.SchedulerOptions
   {
     /// A type-erased main dispatch queue.
     public static var main: Self {
-      DispatchQueue.main.eraseToAnyScheduler()
+      DispatchQueue.OCombine(.main).eraseToAnyScheduler()
     }
 
     /// A type-erased global dispatch queue with the specified quality-of-service class
     public static func global(qos: DispatchQoS.QoSClass = .default) -> Self {
-      DispatchQueue.global(qos: qos).eraseToAnyScheduler()
+      DispatchQueue.OCombine(.global(qos: qos)).eraseToAnyScheduler()
     }
   }
 
   extension AnyScheduler
   where
-    SchedulerTimeType == OperationQueue.SchedulerTimeType,
-    SchedulerOptions == OperationQueue.SchedulerOptions
+    SchedulerTimeType == OperationQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == OperationQueue.OCombine.SchedulerOptions
   {
     /// A type-erased main operation queue.
     public static var main: Self {
-      OperationQueue.main.eraseToAnyScheduler()
+      OperationQueue.OCombine(.main).eraseToAnyScheduler()
     }
   }
 
   extension AnyScheduler
   where
-    SchedulerTimeType == RunLoop.SchedulerTimeType,
-    SchedulerOptions == RunLoop.SchedulerOptions
+    SchedulerTimeType == RunLoop.OCombine.SchedulerTimeType,
+    SchedulerOptions == RunLoop.OCombine.SchedulerOptions
   {
     /// A type-erased main run loop.
     public static var main: Self {
-      RunLoop.main.eraseToAnyScheduler()
+      RunLoop.OCombine(.main).eraseToAnyScheduler()
     }
   }
 #endif

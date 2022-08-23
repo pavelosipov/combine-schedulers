@@ -5,10 +5,10 @@ import PackageDescription
 let package = Package(
   name: "combine-schedulers",
   platforms: [
-    .iOS(.v13),
-    .macOS(.v10_15),
-    .tvOS(.v13),
-    .watchOS(.v6),
+    .iOS(.v12),
+    .macOS(.v10_14),
+    .tvOS(.v12),
+    .watchOS(.v5),
   ],
   products: [
     .library(
@@ -17,12 +17,16 @@ let package = Package(
     )
   ],
   dependencies: [
-    .package(url: "https://github.com/pointfreeco/xctest-dynamic-overlay", from: "0.3.0")
+    .package(url: "https://github.com/OpenCombine/OpenCombine", from: "0.13.0"),
+    .package(url: "https://github.com/pavelosipov/xctest-dynamic-overlay", from: "0.3.1")
   ],
   targets: [
     .target(
       name: "CombineSchedulers",
       dependencies: [
+        .product(name: "OpenCombine", package: "OpenCombine"),
+        .product(name: "OpenCombineFoundation", package: "OpenCombine"),
+        .product(name: "OpenCombineDispatch", package: "OpenCombine"),
         .product(name: "XCTestDynamicOverlay", package: "xctest-dynamic-overlay")
       ]
     ),

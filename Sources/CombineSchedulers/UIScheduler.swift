@@ -1,5 +1,6 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
+  import OpenCombineDispatch
   import Dispatch
 
   /// A scheduler that executes its work on the main queue as soon as possible.
@@ -15,23 +16,23 @@
   /// This scheduler can be useful for situations where you need work executed as quickly as
   /// possible on the main thread, and for which a thread hop would be problematic, such as when
   /// performing animations.
-  public struct UIScheduler: Scheduler, Sendable {
+  public struct UIScheduler: OpenCombine.Scheduler, Sendable {
     public typealias SchedulerOptions = Never
-    public typealias SchedulerTimeType = DispatchQueue.SchedulerTimeType
+    public typealias SchedulerTimeType = DispatchQueue.OCombine.SchedulerTimeType
 
     /// The shared instance of the UI scheduler.
     ///
     /// You cannot create instances of the UI scheduler yourself. Use only the shared instance.
     public static let shared = Self()
 
-    public var now: SchedulerTimeType { DispatchQueue.main.now }
-    public var minimumTolerance: SchedulerTimeType.Stride { DispatchQueue.main.minimumTolerance }
+    public var now: SchedulerTimeType { DispatchQueue.OCombine(.main).now }
+    public var minimumTolerance: SchedulerTimeType.Stride { DispatchQueue.OCombine(.main).minimumTolerance }
 
     public func schedule(options: SchedulerOptions? = nil, _ action: @escaping () -> Void) {
       if DispatchQueue.getSpecific(key: key) == value {
         action()
       } else {
-        DispatchQueue.main.schedule(action)
+        DispatchQueue.OCombine(.main).schedule(action)
       }
     }
 
@@ -41,7 +42,7 @@
       options: SchedulerOptions? = nil,
       _ action: @escaping () -> Void
     ) {
-      DispatchQueue.main.schedule(after: date, tolerance: tolerance, options: nil, action)
+      DispatchQueue.OCombine(.main).schedule(after: date, tolerance: tolerance, options: nil, action)
     }
 
     public func schedule(
@@ -51,7 +52,7 @@
       options: SchedulerOptions? = nil,
       _ action: @escaping () -> Void
     ) -> Cancellable {
-      DispatchQueue.main.schedule(
+      DispatchQueue.OCombine(.main).schedule(
         after: date, interval: interval, tolerance: tolerance, options: nil, action
       )
     }

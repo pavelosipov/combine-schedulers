@@ -11,13 +11,12 @@
 //===----------------------------------------------------------------------===//
 
 // Only support 64bit
-#if !(os(iOS) && (arch(i386) || arch(arm))) && canImport(Combine)
+#if !(os(iOS) && (arch(i386) || arch(arm))) && canImport(OpenCombine)
   @_exported import Foundation  // Clang module
-  import Combine
+  import OpenCombine
   import Foundation
 
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  extension Scheduler {
+  extension OpenCombine.Scheduler {
     /// Returns a publisher that repeatedly emits the scheduler's current time on the given
     /// interval.
     ///
@@ -37,8 +36,7 @@
     }
   }
 
-  @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
-  extension Publishers {
+  extension OpenCombine.Publishers {
     /// A publisher that emits a scheduler's current time on a repeating interval.
     ///
     /// This publisher is an alternative to Foundation's `Timer.publisher`, with its primary
@@ -81,7 +79,7 @@
     /// scheduler.advance(by: 1_000)
     /// XCTAssertEqual(output, Array(0...1_001))
     /// ```
-    public final class Timer<S: Scheduler>: ConnectablePublisher {
+    public final class Timer<S: OpenCombine.Scheduler>: ConnectablePublisher {
       public typealias Output = S.SchedulerTimeType
       public typealias Failure = Never
 

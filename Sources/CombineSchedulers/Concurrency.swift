@@ -1,7 +1,7 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
 
-  extension Scheduler {
+  extension OpenCombine.Scheduler {
     /// Suspends the current task for at least the given duration.
     ///
     /// If the task is cancelled before the time ends, this function throws `CancellationError`.
@@ -16,6 +16,7 @@
     ///   - duration: The time interval on which to sleep between yielding.
     ///   - tolerance: The allowed timing variance when emitting events. Defaults to `zero`.
     ///   - options: Scheduler options passed to the timer. Defaults to `nil`.
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     public func sleep(
       for duration: SchedulerTimeType.Stride,
       tolerance: SchedulerTimeType.Stride = .zero,
@@ -43,6 +44,7 @@
     ///   - deadline: An instant of time to suspend until.
     ///   - tolerance: The allowed timing variance when emitting events. Defaults to `zero`.
     ///   - options: Scheduler options passed to the timer. Defaults to `nil`.
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     public func sleep(
       until deadline: SchedulerTimeType,
       tolerance: SchedulerTimeType.Stride = .zero,
@@ -71,6 +73,7 @@
     ///   - tolerance: The allowed timing variance when emitting events. Defaults to `zero`.
     ///   - options: Scheduler options passed to the timer. Defaults to `nil`.
     /// - Returns: A stream that repeatedly yields the current time.
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     public func timer(
       interval: SchedulerTimeType.Stride,
       tolerance: SchedulerTimeType.Stride = .zero,

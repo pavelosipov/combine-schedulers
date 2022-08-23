@@ -1,5 +1,5 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
   import Foundation
 
   // NB: Soft-deprecated after 0.5.3:
@@ -21,13 +21,13 @@
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(tvOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(watchOS, deprecated: 9999.0, renamed: "unimplemented")
-    public static var failing: UnimplementedSchedulerOf<DispatchQueue> { Self.unimplemented }
+    public static var failing: UnimplementedSchedulerOf<DispatchQueue.OCombine> { Self.unimplemented }
 
     @available(iOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(tvOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(watchOS, deprecated: 9999.0, renamed: "unimplemented")
-    public static func failing(_ prefix: String) -> UnimplementedSchedulerOf<DispatchQueue> {
+    public static func failing(_ prefix: String) -> UnimplementedSchedulerOf<DispatchQueue.OCombine> {
       Self.unimplemented(prefix)
     }
   }
@@ -37,13 +37,13 @@
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(tvOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(watchOS, deprecated: 9999.0, renamed: "unimplemented")
-    public static var failing: UnimplementedSchedulerOf<OperationQueue> { Self.unimplemented }
+    public static var failing: UnimplementedSchedulerOf<OperationQueue.OCombine> { Self.unimplemented }
 
     @available(iOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(tvOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(watchOS, deprecated: 9999.0, renamed: "unimplemented")
-    public static func failing(_ prefix: String) -> UnimplementedSchedulerOf<OperationQueue> {
+    public static func failing(_ prefix: String) -> UnimplementedSchedulerOf<OperationQueue.OCombine> {
       Self.unimplemented(prefix)
     }
   }
@@ -53,21 +53,21 @@
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(tvOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(watchOS, deprecated: 9999.0, renamed: "unimplemented")
-    public static var failing: UnimplementedSchedulerOf<RunLoop> { Self.unimplemented }
+    public static var failing: UnimplementedSchedulerOf<RunLoop.OCombine> { Self.unimplemented }
 
     @available(iOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(tvOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(watchOS, deprecated: 9999.0, renamed: "unimplemented")
-    public static func failing(_ prefix: String) -> UnimplementedSchedulerOf<RunLoop> {
+    public static func failing(_ prefix: String) -> UnimplementedSchedulerOf<RunLoop.OCombine> {
       Self.unimplemented(prefix)
     }
   }
 
   extension AnyScheduler
   where
-    SchedulerTimeType == DispatchQueue.SchedulerTimeType,
-    SchedulerOptions == DispatchQueue.SchedulerOptions
+    SchedulerTimeType == DispatchQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == DispatchQueue.OCombine.SchedulerOptions
   {
     @available(iOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
@@ -84,8 +84,8 @@
 
   extension AnyScheduler
   where
-    SchedulerTimeType == OperationQueue.SchedulerTimeType,
-    SchedulerOptions == OperationQueue.SchedulerOptions
+    SchedulerTimeType == OperationQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == OperationQueue.OCombine.SchedulerOptions
   {
     @available(iOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
@@ -102,8 +102,8 @@
 
   extension AnyScheduler
   where
-    SchedulerTimeType == RunLoop.SchedulerTimeType,
-    SchedulerOptions == RunLoop.SchedulerOptions
+    SchedulerTimeType == RunLoop.OCombine.SchedulerTimeType,
+    SchedulerOptions == RunLoop.OCombine.SchedulerOptions
   {
     @available(iOS, deprecated: 9999.0, renamed: "unimplemented")
     @available(macOS, deprecated: 9999.0, renamed: "unimplemented")
@@ -122,8 +122,8 @@
 
   extension Scheduler
   where
-    SchedulerTimeType == DispatchQueue.SchedulerTimeType,
-    SchedulerOptions == DispatchQueue.SchedulerOptions
+    SchedulerTimeType == DispatchQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == DispatchQueue.OCombine.SchedulerOptions
   {
     @available(*, deprecated, renamed: "immediate")
     public static var immediateScheduler: ImmediateSchedulerOf<Self> {
@@ -134,8 +134,8 @@
 
   extension Scheduler
   where
-    SchedulerTimeType == RunLoop.SchedulerTimeType,
-    SchedulerOptions == RunLoop.SchedulerOptions
+    SchedulerTimeType == RunLoop.OCombine.SchedulerTimeType,
+    SchedulerOptions == RunLoop.OCombine.SchedulerOptions
   {
     @available(*, deprecated, renamed: "immediate")
     public static var immediateScheduler: ImmediateSchedulerOf<Self> {
@@ -145,8 +145,8 @@
 
   extension Scheduler
   where
-    SchedulerTimeType == OperationQueue.SchedulerTimeType,
-    SchedulerOptions == OperationQueue.SchedulerOptions
+    SchedulerTimeType == OperationQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == OperationQueue.OCombine.SchedulerOptions
   {
     @available(*, deprecated, renamed: "immediate")
     public static var immediateScheduler: ImmediateSchedulerOf<Self> {
@@ -156,8 +156,8 @@
 
   extension Scheduler
   where
-    SchedulerTimeType == DispatchQueue.SchedulerTimeType,
-    SchedulerOptions == DispatchQueue.SchedulerOptions
+    SchedulerTimeType == DispatchQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == DispatchQueue.OCombine.SchedulerOptions
   {
     /// A test scheduler of dispatch queues.
     @available(*, deprecated, renamed: "test")
@@ -169,8 +169,8 @@
 
   extension Scheduler
   where
-    SchedulerTimeType == OperationQueue.SchedulerTimeType,
-    SchedulerOptions == OperationQueue.SchedulerOptions
+    SchedulerTimeType == OperationQueue.OCombine.SchedulerTimeType,
+    SchedulerOptions == OperationQueue.OCombine.SchedulerOptions
   {
     /// A test scheduler of operation queues.
     @available(*, deprecated, renamed: "test")
@@ -181,8 +181,8 @@
 
   extension Scheduler
   where
-    SchedulerTimeType == RunLoop.SchedulerTimeType,
-    SchedulerOptions == RunLoop.SchedulerOptions
+    SchedulerTimeType == RunLoop.OCombine.SchedulerTimeType,
+    SchedulerOptions == RunLoop.OCombine.SchedulerOptions
   {
     /// A test scheduler of run loops.
     @available(*, deprecated, renamed: "test")

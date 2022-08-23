@@ -1,8 +1,8 @@
-#if canImport(Combine)
-  import Combine
+#if canImport(OpenCombine)
+  import OpenCombine
   import SwiftUI
 
-  extension Scheduler {
+  extension OpenCombine.Scheduler {
     /// Specifies an animation to perform when an action is scheduled. This can be useful for times
     /// that you cannot easily wrap state mutations in a `withAnimation` block.
     ///
@@ -62,6 +62,7 @@
     ///
     /// - Parameter animation: An animation to be performed.
     /// - Returns: A scheduler that performs an animation when a scheduled action is run.
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     public func animation(_ animation: Animation? = .default) -> AnySchedulerOf<Self> {
       AnyScheduler(
         minimumTolerance: { self.minimumTolerance },
@@ -88,6 +89,7 @@
     ///
     /// - Parameter transaction: A transaction.
     /// - Returns: A scheduler that wraps scheduled actions in a transaction.
+    @available(OSX 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
     public func transaction(_ transaction: Transaction) -> AnySchedulerOf<Self> {
       AnyScheduler(
         minimumTolerance: { self.minimumTolerance },
