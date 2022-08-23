@@ -4,7 +4,7 @@
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fcombine-schedulers%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/pointfreeco/combine-schedulers)
 [![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fpointfreeco%2Fcombine-schedulers%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/pointfreeco/combine-schedulers)
 
-A few schedulers that make working with Combine more testable and more versatile.
+A few schedulers that make working with OpenCombine more testable and more versatile.
 
 * [Motivation](#motivation)
 * [Learn more](#learn-more)
